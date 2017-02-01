@@ -45,23 +45,23 @@ class Thread extends Model
     private $usersTable = null;
 
     /**
-     * Messages relationship.
+     * Posts relationship.
      *
      * @return \Nova\Database\ORM\Relations\HasMany
      */
-    public function messages()
+    public function posts()
     {
-        return $this->hasMany('Modules\Messenger\Models\Message');
+        return $this->hasMany('Modules\Messenger\Models\Post');
     }
 
     /**
-     * Returns the latest message from a thread.
+     * Returns the latest post from a thread.
      *
-     * @return \Modules\Messenger\Models\Message
+     * @return \Modules\Messenger\Models\Post
      */
-    public function getLatestMessageAttribute()
+    public function getLatestPostAttribute()
     {
-        return $this->messages()->latest()->first();
+        return $this->posts()->latest()->first();
     }
 
     /**
@@ -81,9 +81,9 @@ class Thread extends Model
      */
     public function creator()
     {
-        $message = $this->messages()->oldest()->first();
+        $post = $this->posts()->oldest()->first();
 
-        return $message->user;
+        return $post->user;
     }
 
     /**
@@ -120,13 +120,13 @@ class Thread extends Model
     }
 
     /**
-     * Returns threads with new messages that the User is associated with.
+     * Returns threads with new posts that the User is associated with.
      *
      * @param $query
      * @param $userId
      * @return mixed
      */
-    public function scopeForUserWithNewMessages($query, $userId)
+    public function scopeForUserWithNewPosts($query, $userId)
     {
         return $query->join('participants', 'threads.id', '=', 'participants.thread_id')
             ->where('participants.user_id', $userId)
@@ -230,7 +230,7 @@ class Thread extends Model
     }
 
     /**
-     * Restores all participants within a Thread that has a new message
+     * Restores all participants within a Thread that has a new post
      */
     public function activateAllParticipants()
     {
