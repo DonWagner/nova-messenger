@@ -8,3 +8,6 @@
 | Here is where you can register all of the Configuration for the module.
 */
 
+return array(
+    //
+);

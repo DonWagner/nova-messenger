@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Messenger\Controllers\Admin;
+namespace Modules\Messenger\Http\Controllers\Admin;
 
 use Nova\Database\ORM\ModelNotFoundException;
 use Nova\Support\Facades\Auth;
@@ -23,7 +23,7 @@ use Carbon\Carbon;
 class Posts extends BackendController
 {
 
-    protected function validate(array $data, $updating = false)
+    protected function validator(array $data, $updating = false)
     {
         // The Validation Rules.
         if (! $updating) {
@@ -141,7 +141,7 @@ class Posts extends BackendController
         // Validate the Input data.
         $input = Input::only('subject', 'post', 'recipients');
 
-        $validator = $this->validate($input);
+        $validator = $this->validator($input);
 
         if ($validator->passes()) {
             // Create the new Thread.
@@ -201,7 +201,7 @@ class Posts extends BackendController
         $input = Input::only('post', 'recipients');
 
         //
-        $validator = $this->validate($input, true);
+        $validator = $this->validator($input, true);
 
         if ($validator->passes()) {
             $thread->activateAllParticipants();
